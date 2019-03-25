@@ -19,7 +19,7 @@ public class DingTalkController {
     @PostMapping("/sendErrorNote")
     public String sendErrorNote(String title, String text, String atUsers, String serverUrl) {
         try {
-            msgDingtalk.send(title, text, "", atUsers, "markdown", serverUrl);
+            msgDingtalk.send(title, text, null, atUsers, "markdown", serverUrl);
         } catch (ApiException e) {
             return "fail";
         }
@@ -39,7 +39,7 @@ public class DingTalkController {
     @PostMapping("/sendNote")
     public String sendNote(String text, String atUsers, String serverUrl) {
         try {
-            msgDingtalk.send("", text, "", atUsers, "text", serverUrl);
+            msgDingtalk.send(null, text, null, atUsers, "text", serverUrl);
         } catch (ApiException e) {
             return "fail";
         }
