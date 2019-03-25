@@ -16,6 +16,8 @@ public class DingTalkController {
     @Autowired
     private SendMsgDingtalk msgDingtalk;
 
+    private final static int TEXT_SIZE = 501;
+
     @PostMapping("/sendErrorNote")
     public String sendErrorNote(String title, String text, String atUsers, String serverUrl) {
         try {
@@ -47,8 +49,8 @@ public class DingTalkController {
     }
 
     private String changeText500(String text) {
-        String newText = "";
-        if (text.length() > 501) {
+        String newText;
+        if (text.length() > TEXT_SIZE) {
             newText = text.substring(0, 500);
         } else {
             return text;
