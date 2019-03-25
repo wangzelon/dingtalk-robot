@@ -17,9 +17,9 @@ public class DingTalkController {
     private SendMsgDingtalk msgDingtalk;
 
     @PostMapping("/sendErrorNote")
-    public String sendErrorNote(String type, String title, String text) {
+    public String sendErrorNote(String title, String text, String atUsers, String serverUrl) {
         try {
-            msgDingtalk.send(title, text, "", "", type);
+            msgDingtalk.send(title, text, "", atUsers, "markdown", serverUrl);
         } catch (ApiException e) {
             return "fail";
         }
@@ -27,9 +27,9 @@ public class DingTalkController {
     }
 
     @PostMapping("/sendWarnNote")
-    public String sendWarnNote(String type, String title, String text, String messageUrl) {
+    public String sendWarnNote(String title, String text, String messageUrl, String atUsers, String serverUrl) {
         try {
-            msgDingtalk.send(title, text, messageUrl, "", type);
+            msgDingtalk.send(title, text, messageUrl, atUsers, "link", serverUrl);
         } catch (ApiException e) {
             return "fail";
         }
@@ -37,9 +37,9 @@ public class DingTalkController {
     }
 
     @PostMapping("/sendNote")
-    public String sendNote(String type, String text) {
+    public String sendNote(String text, String atUsers, String serverUrl) {
         try {
-            msgDingtalk.send("", text, "", "", type);
+            msgDingtalk.send("", text, "", atUsers, "text", serverUrl);
         } catch (ApiException e) {
             return "fail";
         }

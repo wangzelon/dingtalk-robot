@@ -23,9 +23,15 @@ public class SendMsgDingtalk {
     public final static String TYPE_MARKDOWN = "markdown";
 
     public final static String AT_ALL = "@周晓金(周晓金) @杨秀亮(杨秀亮)@刘栋(刘栋)@伍鸿城(阿华)";
+    public final static String SERVER_URL = "https://oapi.dingtalk.com/robot/send?access_token=a32cf467eeff197b2cba3d4ed93f3372e82bb6917f0e2e7af1124721b4b693e7";
 
-    public void send(String title, String text, String messageUrl, String atUsers, String type) throws ApiException {
-        DingTalkClient client = new DefaultDingTalkClient("https://oapi.dingtalk.com/robot/send?access_token=a32cf467eeff197b2cba3d4ed93f3372e82bb6917f0e2e7af1124721b4b693e7");
+    public void send(String title, String text, String messageUrl, String atUsers, String type, String serverUrl) throws ApiException {
+        DingTalkClient client = null;
+        if (StringUtils.isEmpty(serverUrl)) {
+            client = new DefaultDingTalkClient(SERVER_URL);
+        } else {
+            client = new DefaultDingTalkClient(serverUrl);
+        }
         OapiRobotSendRequest request = new OapiRobotSendRequest();
         if (TYPE_TEXT.equals(type)) {
             setTypeText(request, text);
