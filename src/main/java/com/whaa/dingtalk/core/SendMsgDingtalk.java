@@ -71,7 +71,7 @@ public class SendMsgDingtalk {
 
     private void changeRequest(OapiRobotSendRequest request, String atUsers) {
         OapiRobotSendRequest.At at = new OapiRobotSendRequest.At();
-        if (StringUtils.isEmpty(atUsers)) {
+        if (!StringUtils.isEmpty(atUsers)) {
             at.setAtMobiles(Arrays.asList(atUsers.split(",")));
         } else {
             at.setIsAtAll("true");
