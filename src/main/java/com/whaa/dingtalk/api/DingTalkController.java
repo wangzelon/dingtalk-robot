@@ -19,7 +19,7 @@ public class DingTalkController {
     @PostMapping("/sendErrorNote")
     public String sendErrorNote(String title, String text, String atUsers, String serverUrl) {
         try {
-            msgDingtalk.send(title, text, null, atUsers, "markdown", serverUrl);
+            msgDingtalk.send(title, changeText500(text), null, atUsers, "markdown", serverUrl);
         } catch (ApiException e) {
             return "fail";
         }
@@ -29,7 +29,7 @@ public class DingTalkController {
     @PostMapping("/sendWarnNote")
     public String sendWarnNote(String title, String text, String messageUrl, String atUsers, String serverUrl) {
         try {
-            msgDingtalk.send(title, text, messageUrl, atUsers, "link", serverUrl);
+            msgDingtalk.send(title, changeText500(text), messageUrl, atUsers, "link", serverUrl);
         } catch (ApiException e) {
             return "fail";
         }
@@ -39,10 +39,20 @@ public class DingTalkController {
     @PostMapping("/sendNote")
     public String sendNote(String text, String atUsers, String serverUrl) {
         try {
-            msgDingtalk.send(null, text, null, atUsers, "text", serverUrl);
+            msgDingtalk.send(null, changeText500(text), null, atUsers, "text", serverUrl);
         } catch (ApiException e) {
             return "fail";
         }
         return "success";
+    }
+
+    private String changeText500(String text) {
+        String newText = "";
+        if (text.length() > 501) {
+            newText = text.substring(0, 500);
+        } else {
+            return text;
+        }
+        return newText;
     }
 }
