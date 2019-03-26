@@ -63,6 +63,7 @@ public class SendMsgDingtalk {
 
     private void setTypeMarkdown(OapiRobotSendRequest request, String title, String text, String atUsers) {
         changeRequest(request, atUsers);
+        request.setMsgtype(TYPE_MARKDOWN);
         OapiRobotSendRequest.Markdown markdown = new OapiRobotSendRequest.Markdown();
         markdown.setTitle(title);
         markdown.setText(text);
@@ -77,6 +78,5 @@ public class SendMsgDingtalk {
             at.setIsAtAll("true");
         }
         request.setAt(at);
-        request.setMsgtype(TYPE_MARKDOWN);
     }
 }
