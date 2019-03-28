@@ -21,16 +21,17 @@ public class TokenProcessor {
     public String generateTokeCode() {
         String value = System.currentTimeMillis() + new Random().nextInt() + "";
         long currentTime = System.currentTimeMillis();
+        //获取数据指纹，指纹是唯一的
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy年-MM月dd日-HH时mm分ss秒");
         Date date = new Date(currentTime);
-        //获取数据指纹，指纹是唯一的
         try {
+            value += formatter.format(date);
             MessageDigest md = MessageDigest.getInstance("md5");
-            byte[] b = md.digest(value.getBytes());//产生数据的指纹
+            //产生数据的指纹
+            byte[] b = md.digest(value.getBytes());
             //Base64编码
             BASE64Encoder be = new BASE64Encoder();
-            be.encode(b);
-            return be.encode(b);//制定一个编码
+            return be.encode(b);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }

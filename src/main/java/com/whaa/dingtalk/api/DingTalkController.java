@@ -1,8 +1,8 @@
 package com.whaa.dingtalk.api;
 
 import com.taobao.api.ApiException;
-import com.taobao.api.internal.toplink.embedded.websocket.util.StringUtil;
 import com.whaa.dingtalk.core.SendMsgDingtalk;
+import com.whaa.dingtalk.core.WriteJsonFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class DingTalkController {
     @Autowired
     private SendMsgDingtalk msgDingtalk;
+    @Autowired
+    private WriteJsonFile writeJsonFile;
 
     private final static int TEXT_SIZE = 1201;
 
@@ -57,6 +59,11 @@ public class DingTalkController {
             return "fail";
         }
         return "success";
+    }
+
+    @PostMapping("/registerServer")
+    public String registerServer(String fromServer) {
+        return writeJsonFile.writeToken(fromServer);
     }
 
     private String changeText500(String text) {

@@ -1,6 +1,9 @@
 package com.whaa.dingtalk.interceptor;
 
 import com.alibaba.fastjson.JSON;
+import com.whaa.dingtalk.bean.RegisterDingTalk;
+import com.whaa.dingtalk.core.WriteJsonFile;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -9,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,7 +22,8 @@ import java.util.Map;
 @Component
 public class MsgInterceptor implements HandlerInterceptor {
 
-    public static final String AUTH = "whaa";
+    @Autowired
+    private com.whaa.dingtalk.core.WriteJsonFile writeJsonFile;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -27,7 +32,15 @@ public class MsgInterceptor implements HandlerInterceptor {
             setApiResponse(response, 401, "认证失败");
             return false;
         }
-        if (!AUTH.equals(auth)) {
+        boolean flag = false;
+        List<RegisterDingTalk> registerDingTalks = writeJsonFile.readFile();
+        for (RegisterDingTalk registerDingTalk : registerDingTalks) {
+            if (auth.equals(registerDingTalk.getAuthToken())) {
+                flag = true;
+                break;
+            }
+        }
+        if (!flag) {
             setApiResponse(response, 401, "认证失败");
             return false;
         }

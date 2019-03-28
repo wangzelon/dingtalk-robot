@@ -17,7 +17,7 @@ public class WebConfiggurer extends WebMvcConfigurerAdapter {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(msgInterceptor).addPathPatterns("/**");
+        registry.addInterceptor(msgInterceptor).addPathPatterns("/**").excludePathPatterns("/dingTalk/registerServer");
         super.addInterceptors(registry);
     }
 
