@@ -27,15 +27,16 @@ public class MsgInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String auth = request.getHeader("auth");
-        if (StringUtils.isEmpty(auth)) {
+        String auth = request.getHeader("authToken");
+        String key = request.getHeader("authKey");
+        if (StringUtils.isEmpty(auth) || StringUtils.isEmpty(key)) {
             setApiResponse(response, 401, "认证失败");
             return false;
         }
         boolean flag = false;
         List<RegisterDingTalk> registerDingTalks = writeJsonFile.readFile();
         for (RegisterDingTalk registerDingTalk : registerDingTalks) {
-            if (auth.equals(registerDingTalk.getAuthToken())) {
+            if (registerDingTalk.getFromServer().equals(key) && registerDingTalk.getAuthToken().equals(auth)) {
                 flag = true;
                 break;
             }
