@@ -1,8 +1,10 @@
 package com.whaa.dingtalk.api;
 
 import com.taobao.api.ApiException;
+import com.taobao.api.internal.toplink.embedded.websocket.util.StringUtil;
 import com.whaa.dingtalk.core.SendMsgDingtalk;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +23,9 @@ public class DingTalkController {
     @PostMapping("/sendErrorNote")
     public String sendErrorNote(String title, String text, String atUsers, String serverUrl) {
         try {
+            if (StringUtils.isEmpty(title) || StringUtils.isEmpty(text) || StringUtils.isEmpty(serverUrl)) {
+                return "fail";
+            }
             msgDingtalk.send(title, changeText500(text), null, atUsers, "markdown", serverUrl);
         } catch (ApiException e) {
             return "fail";
@@ -31,6 +36,9 @@ public class DingTalkController {
     @PostMapping("/sendWarnNote")
     public String sendWarnNote(String title, String text, String messageUrl, String atUsers, String serverUrl) {
         try {
+            if (StringUtils.isEmpty(title) || StringUtils.isEmpty(text) || StringUtils.isEmpty(serverUrl)) {
+                return "fail";
+            }
             msgDingtalk.send(title, changeText500(text), messageUrl, atUsers, "link", serverUrl);
         } catch (ApiException e) {
             return "fail";
@@ -41,6 +49,9 @@ public class DingTalkController {
     @PostMapping("/sendNote")
     public String sendNote(String text, String atUsers, String serverUrl) {
         try {
+            if (StringUtils.isEmpty(text) || StringUtils.isEmpty(serverUrl)) {
+                return "fail";
+            }
             msgDingtalk.send(null, changeText500(text), null, atUsers, "text", serverUrl);
         } catch (ApiException e) {
             return "fail";
