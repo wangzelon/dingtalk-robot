@@ -53,6 +53,7 @@ public class SendMsgDingtalk {
 
     private void setTypeLink(OapiRobotSendRequest request, String atUsers, String messageUrl, String title, String content) {
         changeRequest(request, atUsers);
+        request.setMsgtype(TYPE_LINK);
         OapiRobotSendRequest.Link link = new OapiRobotSendRequest.Link();
         link.setMessageUrl(messageUrl);
         link.setPicUrl("http://admin.myopshop.com/static/ico/OPSHOP-ICON.ico");
