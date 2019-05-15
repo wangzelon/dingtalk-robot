@@ -20,7 +20,6 @@ public class DingTalkController {
     @Autowired
     private WriteJsonFile writeJsonFile;
 
-    private final static int TEXT_SIZE = 2000;
 
     @PostMapping("/sendErrorNote")
     public String sendErrorNote(String title, String text, String atUsers, String serverUrl) {
@@ -28,7 +27,7 @@ public class DingTalkController {
             if (StringUtils.isEmpty(title) || StringUtils.isEmpty(text) || StringUtils.isEmpty(serverUrl)) {
                 return "fail";
             }
-            msgDingtalk.send(title, changeText500(text), null, atUsers, "markdown", serverUrl);
+            msgDingtalk.send(title, text, null, atUsers, "markdown", serverUrl);
         } catch (ApiException e) {
             return "fail";
         }
@@ -41,7 +40,7 @@ public class DingTalkController {
             if (StringUtils.isEmpty(title) || StringUtils.isEmpty(text) || StringUtils.isEmpty(serverUrl)) {
                 return "fail";
             }
-            msgDingtalk.send(title, changeText500(text), messageUrl, atUsers, "link", serverUrl);
+            msgDingtalk.send(title, text, messageUrl, atUsers, "link", serverUrl);
         } catch (ApiException e) {
             return "fail";
         }
@@ -54,7 +53,7 @@ public class DingTalkController {
             if (StringUtils.isEmpty(text) || StringUtils.isEmpty(serverUrl)) {
                 return "fail";
             }
-            msgDingtalk.send(null, changeText500(text), null, atUsers, "text", serverUrl);
+            msgDingtalk.send(null, text, null, atUsers, "text", serverUrl);
         } catch (ApiException e) {
             return "fail";
         }
@@ -66,13 +65,4 @@ public class DingTalkController {
         return writeJsonFile.writeToken(fromServer);
     }
 
-    private String changeText500(String text) {
-        String newText;
-        if (text.length() > TEXT_SIZE) {
-            newText = text.substring(0, TEXT_SIZE);
-        } else {
-            return text;
-        }
-        return newText;
-    }
 }
